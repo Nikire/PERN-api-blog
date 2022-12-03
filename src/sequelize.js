@@ -12,4 +12,6 @@ const sequelize = new Sequelize(
 	}
 );
 
-module.exports = sequelize;
+const models = require('./models')(sequelize);
+
+module.exports = { sequelize, ...models };

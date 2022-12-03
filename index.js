@@ -1,9 +1,9 @@
-const { testConnection } = require('./helpers/sequelize');
+const { testConnection } = require('./src/helpers/sequelize');
 require('dotenv').config();
 
 // Require Express and Sequelize
-const server = require('./server');
-const sequelize = require('./sequelize');
+const server = require('./src/server');
+const sequelize = require('./src/sequelize');
 
 // Test Sequelize connection
 testConnection(sequelize);

@@ -1,16 +1,15 @@
-const { Sequelize } = require('sequelize');
 const { testConnection } = require('./helpers/sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize(
-	process.env.DB_NAME,
-	process.env.USER,
-	process.env.PASSWORD,
-	{
-		host: process.env.HOST,
-		dialect: 'postgres',
-		port: 5432,
-		logging: false,
-	}
-);
+// Require Express and Sequelize
+const server = require('./server');
+const sequelize = require('./sequelize');
+
+// Test Sequelize connection
 testConnection(sequelize);
+
+// Start Express server
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+	console.log(`Server started on port ${PORT}`);
+});

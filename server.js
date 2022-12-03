@@ -2,6 +2,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const routes = require('./routes');
+const { errorHandler } = require('./helpers/express');
 
 // Create Express app
 const server = express();
@@ -13,8 +15,9 @@ server.use(morgan('dev'));
 server.use(cors());
 
 // Setup routes
-server.get('/', (req, res) => {
-	res.send('Hello Express!');
-});
+server.use('/', routes);
+
+// Error handler
+server.use(errorHandler());
 
 module.exports = server;

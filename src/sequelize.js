@@ -18,4 +18,4 @@ const models = require('./models')(sequelize);
 models.User.associate(models);
 models.Post.associate(models);
 
-module.exports = { sequelize, ...models };
+module.exports = { sequelize, models };

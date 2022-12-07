@@ -1,3 +1,4 @@
+let users = require('../../JSON/users.json');
 module.exports = {
 	async testConnection(sequelize) {
 		try {
@@ -6,5 +7,13 @@ module.exports = {
 		} catch (error) {
 			console.error('Unable to connect Sequelize to the database:', error);
 		}
+	},
+	async loadDB({ User }) {
+		users = users.map(({ email, username, name }) => ({
+			email,
+			username,
+			name,
+		}));
+		await User.bulkCreate(users);
 	},
 };

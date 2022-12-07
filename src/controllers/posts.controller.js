@@ -1,29 +1,29 @@
 module.exports = {
-	getPosts(req, res, next) {
+	async getPosts(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);
 		}
 	},
-	getPost(req, res) {
+	async getPost(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);
 		}
 	},
-	createPost(req, res) {
+	async createPost(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);
 		}
 	},
-	updatePost(req, res) {
+	async updatePost(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);
 		}
 	},
-	deletePost(req, res) {
+	async deletePost(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);

@@ -1,29 +1,29 @@
 module.exports = {
-	getUsers(req, res, next) {
+	async getUsers(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);
 		}
 	},
-	getUser(req, res) {
+	async getUser(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);
 		}
 	},
-	createUser(req, res) {
+	async createUser(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);
 		}
 	},
-	updateUser(req, res) {
+	async updateUser(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);
 		}
 	},
-	deleteUser(req, res) {
+	async deleteUser(req, res, next) {
 		try {
 		} catch (e) {
 			next(e);

@@ -9,7 +9,7 @@ const { sequelize, models } = require('./src/sequelize');
 testConnection(sequelize);
 
 // Start Express server
-const PORT = process.env.PORT || 5000;
+const { PORT } = process.env;
 sequelize.sync({ force: true }).then(() => {
 	server.listen(PORT, () => {
 		// Load DB with Users

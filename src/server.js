@@ -1,9 +1,13 @@
+// Helpers
+const { errorHandler } = require('./helpers/express');
+
 // Require Express
 const express = require('express');
+const routes = require('./routes');
+
+// Middlewares
 const morgan = require('morgan');
 const cors = require('cors');
-const routes = require('./routes');
-const { errorHandler } = require('./helpers/express');
 
 // Create Express app
 const server = express();

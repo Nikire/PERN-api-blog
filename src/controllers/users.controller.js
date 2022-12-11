@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 
 const {
-	models: { User },
+	models: { User, Post },
 } = require('../sequelize');
 
 module.exports = {
@@ -17,6 +17,11 @@ module.exports = {
 					email: { [Op.iLike]: `%${email}%` },
 					username: { [Op.iLike]: `%${username}%` },
 				},
+				include: {
+					model: Post,
+					attributes: ['id', 'title'],
+					through: { attributes: [] },
+				},
 			});
 			res.status(200).json(users);
 		} catch (e) {
@@ -26,7 +31,12 @@ module.exports = {
 	async getUser(req, res, next) {
 		const { id } = req.params;
 		try {
-			const user = await User.findByPk(id);
+			const user = await User.findByPk(id, {
+				include: {
+					model: Post,
+					attributes: ['id', 'title'],
+				},
+			});
 			res.status(200).json(user);
 		} catch (e) {
 			next(e);
@@ -49,11 +59,11 @@ module.exports = {
 		const { id } = req.params;
 		const { username, email, name } = req.body;
 		try {
-			const usersModified = await User.update(
+			const userModified = await User.update(
 				{ username, email, name },
 				{ where: { id: { [Op.eq]: id } } }
 			);
-			res.status(200).json(usersModified);
+			res.status(200).json(userModified);
 		} catch (e) {
 			next(e);
 		}
@@ -61,10 +71,10 @@ module.exports = {
 	async deleteUser(req, res, next) {
 		const { id } = req.params;
 		try {
-			const usersModified = await User.destroy({
+			const userModified = await User.destroy({
 				where: { id: { [Op.eq]: id } },
 			});
-			res.status(200).json(usersModified);
+			res.status(200).json(userModified);
 		} catch (e) {
 			next(e);
 		}

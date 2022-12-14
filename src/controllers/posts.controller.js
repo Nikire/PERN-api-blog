@@ -56,7 +56,7 @@ module.exports = {
 			const postModified = await Post.destroy({
 				where: { id: { [Op.eq]: id } },
 			});
-			res.status(200).json(postModified);
+			res.status(204).json(postModified);
 		} catch (e) {
 			next(e);
 		}

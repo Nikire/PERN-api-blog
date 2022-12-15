@@ -84,7 +84,7 @@ module.exports = {
 			const userModified = await User.destroy({
 				where: { id: { [Op.eq]: id } },
 			});
-			res.status(200).json(userModified);
+			res.status(204).json(userModified);
 		} catch (e) {
 			next(e);
 		}

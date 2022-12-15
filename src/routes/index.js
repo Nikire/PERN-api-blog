@@ -1,13 +1,18 @@
 const { Router } = require('express');
 
+const { authenticateToken } = require('../helpers/express');
+
 // Import of routes
 const postsRouter = require('./posts.routes.js');
 const usersRouter = require('./users.routes.js');
-
+const authRouter = require('./auth.routes.js');
 // Create an instance of the express router
 const router = Router();
 
 // Set up the routes
+router.use('/auth', authRouter);
+//router.use('/posts', authenticateToken, postsRouter);
+//router.use('/users', authenticateToken, usersRouter);
 router.use('/posts', postsRouter);
 router.use('/users', usersRouter);
 

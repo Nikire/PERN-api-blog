@@ -9,9 +9,10 @@ module.exports = {
 		}
 	},
 	async loadDB({ User }) {
-		users = users.map(({ email, username, name }) => ({
+		users = users.map(({ email, username, password, name }) => ({
 			email,
 			username,
+			password,
 			name,
 		}));
 		await User.bulkCreate(users);

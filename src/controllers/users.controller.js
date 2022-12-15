@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 const { Op } = require('sequelize');
 const {
 	models: { User, Post },
@@ -43,13 +45,22 @@ module.exports = {
 	},
 	async createUser(req, res, next) {
 		const { username, email, name } = req.body;
+		let { password } = req.body;
 		try {
-			const user = await User.create({
-				username,
-				email,
-				name,
+			bcrypt.genSalt(10, async (err, salt) => {
+				if (err) return res.send(err);
+				bcrypt.hash(password, salt, async (err, hash) => {
+					if (err) return res.send(err);
+					password = hash;
+					const user = await User.create({
+						username,
+						email,
+						password,
+						name,
+					});
+					res.status(200).json(user);
+				});
 			});
-			res.status(200).json(user);
 		} catch (e) {
 			next(e);
 		}

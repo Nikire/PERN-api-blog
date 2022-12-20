@@ -29,6 +29,7 @@ module.exports = {
 				title,
 				tags,
 				content,
+				userId,
 			});
 			const user = await User.findByPk(userId);
 			await user.addPost(post);

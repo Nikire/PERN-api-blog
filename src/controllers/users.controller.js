@@ -21,7 +21,6 @@ module.exports = {
 				include: {
 					model: Post,
 					attributes: ['id', 'title'],
-					through: { attributes: [] },
 				},
 			});
 			res.status(200).json(users);

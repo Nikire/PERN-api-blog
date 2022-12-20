@@ -1,4 +1,4 @@
-let users = require('../../JSON/users.json');
+let users = require('../media/JSON/users.json');
 module.exports = {
 	async testConnection(sequelize) {
 		try {

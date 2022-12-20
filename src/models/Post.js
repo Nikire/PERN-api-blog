@@ -20,9 +20,14 @@ module.exports = (sequelize) => {
 			type: DataTypes.TEXT,
 			allowNull: false,
 		},
+		authorId: {
+			type: DataTypes.UUID,
+			allowNull: false,
+			foreignKey: true,
+		},
 	});
 	Post.associate = function (models) {
-		Post.belongsToMany(models.User, { through: 'users_posts' });
+		Post.belongsTo(models.User, { foreignKey: 'authorId' });
 	};
 	return Post;
 };

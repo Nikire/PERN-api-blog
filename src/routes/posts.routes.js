@@ -1,5 +1,4 @@
 const { Router } = require('express');
-
 //Controllers
 const {
 	getPosts,

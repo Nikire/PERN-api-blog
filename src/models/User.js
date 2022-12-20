@@ -27,7 +27,8 @@ module.exports = (sequelize) => {
 		},
 	});
 	User.associate = function (models) {
-		User.belongsToMany(models.Post, { through: 'users_posts' });
+		User.hasMany(models.Post, { foreignKey: 'userId' });
+		User.hasMany(models.Favorites, { foreignKey: 'userId' });
 	};
 	return User;
 };

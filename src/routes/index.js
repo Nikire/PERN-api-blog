@@ -6,6 +6,8 @@ const { authenticateToken } = require('../helpers/express');
 const postsRouter = require('./posts.routes.js');
 const usersRouter = require('./users.routes.js');
 const authRouter = require('./auth.routes.js');
+const favoritesRouter = require('./favorites.routes.js');
+
 // Create an instance of the express router
 const router = Router();
 
@@ -15,6 +17,7 @@ router.use('/auth', authRouter);
 //router.use('/users', authenticateToken, usersRouter);
 router.use('/posts', postsRouter);
 router.use('/users', usersRouter);
+router.use('/favorites', favoritesRouter);
 
 // Export the router
 module.exports = router;

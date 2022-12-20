@@ -26,7 +26,7 @@ module.exports = {
 			//validate
 			if (!post) return res.status(404).json({ message: 'Post not found' });
 			if (!user) return res.status(404).json({ message: 'User not found' });
-			//adding
+			//removing
 			await Favorites.destroy({ where: { userId, postId } });
 			res.status(200).json({ message: 'Post removed from favorites' });
 		} catch (e) {

@@ -9,7 +9,7 @@ const router = Router();
 
 // Set up the routes
 router.post('/', addFavorite);
-router.delete('/:id', removeFavorite);
+router.delete('/', removeFavorite);
 
 // Export the router
 module.exports = router;

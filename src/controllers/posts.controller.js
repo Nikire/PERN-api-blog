@@ -1,13 +1,18 @@
 const { Op } = require('sequelize');
 
 const {
-	models: { User, Post },
+	models: { User, Post, Favorites },
 } = require('../sequelize');
 
 module.exports = {
 	async getPosts(req, res, next) {
 		try {
-			const posts = await Post.findAll();
+			const posts = await Post.findAll({
+				include: {
+					model: Favorites,
+					attributes: ['userId'],
+				},
+			});
 			res.status(200).json(posts);
 		} catch (e) {
 			next(e);
@@ -16,7 +21,12 @@ module.exports = {
 	async getPost(req, res, next) {
 		const { id } = req.params;
 		try {
-			const post = await Post.findByPk(id);
+			const post = await Post.findByPk(id, {
+				include: {
+					model: Favorites,
+					attributes: ['userId'],
+				},
+			});
 			res.status(200).json(post);
 		} catch (e) {
 			next(e);

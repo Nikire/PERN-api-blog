@@ -1,4 +1,6 @@
 const { Router } = require('express');
+// Extra routes
+const favoritesRouter = require('./favorites.routes.js');
 
 //Controllers
 const {
@@ -17,6 +19,6 @@ router.get('/:id', getPost);
 router.post('/', createPost);
 router.put('/:id', updatePost);
 router.delete('/:id', deletePost);
-
+router.use('/favorites', favoritesRouter);
 // Export the router
 module.exports = router;

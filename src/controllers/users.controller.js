@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 
 const { Op } = require('sequelize');
 const {
-	models: { User, Post },
+	models: { User, Post, Favorites },
 } = require('../sequelize');
 
 module.exports = {
@@ -18,10 +18,16 @@ module.exports = {
 					email: { [Op.iLike]: `%${email}%` },
 					username: { [Op.iLike]: `%${username}%` },
 				},
-				include: {
-					model: Post,
-					attributes: ['id', 'title'],
-				},
+				include: [
+					{
+						model: Post,
+						attributes: ['id', 'title'],
+					},
+					{
+						model: Favorites,
+						attributes: ['postId'],
+					},
+				],
 			});
 			res.status(200).json(users);
 		} catch (e) {
@@ -32,10 +38,16 @@ module.exports = {
 		const { id } = req.params;
 		try {
 			const user = await User.findByPk(id, {
-				include: {
-					model: Post,
-					attributes: ['id', 'title'],
-				},
+				include: [
+					{
+						model: Post,
+						attributes: ['id', 'title'],
+					},
+					{
+						model: Favorites,
+						attributes: ['postId'],
+					},
+				],
 			});
 			res.status(200).json(user);
 		} catch (e) {

@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 
 const { Op } = require('sequelize');
 const {
-	models: { User, Post, Favorites },
+	models: { User, Post, Favorites, Reactions },
 } = require('../sequelize');
 
 module.exports = {
@@ -27,6 +27,10 @@ module.exports = {
 						model: Favorites,
 						attributes: ['postId'],
 					},
+					{
+						model: Reactions,
+						attributes: ['postId', 'type'],
+					},
 				],
 			});
 			res.status(200).json(users);
@@ -46,6 +50,10 @@ module.exports = {
 					{
 						model: Favorites,
 						attributes: ['postId'],
+					},
+					{
+						model: Reactions,
+						attributes: ['postId', 'type'],
 					},
 				],
 			});

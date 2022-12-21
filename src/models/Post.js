@@ -29,6 +29,7 @@ module.exports = (sequelize) => {
 	Post.associate = function (models) {
 		Post.belongsTo(models.User, { foreignKey: 'userId' });
 		Post.hasMany(models.Favorites, { foreignKey: 'postId' });
+		Post.hasMany(models.Reactions, { foreignKey: 'postId' });
 	};
 	return Post;
 };

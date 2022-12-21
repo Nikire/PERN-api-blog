@@ -17,5 +17,7 @@ const models = require('./models')(sequelize);
 //associations
 models.User.associate(models);
 models.Post.associate(models);
+models.Favorites.associate(models);
+models.Reactions.associate(models);
 
 module.exports = { sequelize, models };

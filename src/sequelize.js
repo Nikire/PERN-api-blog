@@ -19,5 +19,6 @@ models.User.associate(models);
 models.Post.associate(models);
 models.Favorites.associate(models);
 models.Reactions.associate(models);
+models.Comments.associate(models);
 
 module.exports = { sequelize, models };

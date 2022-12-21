@@ -3,6 +3,7 @@ module.exports = (sequelize) => {
 	const Post = require('./Post')(sequelize);
 	const Favorites = require('./Favorites')(sequelize);
 	const Reactions = require('./Reactions')(sequelize);
+	const Comments = require('./Comments')(sequelize);
 
-	return { User, Post, Favorites, Reactions };
+	return { User, Post, Favorites, Reactions, Comments };
 };

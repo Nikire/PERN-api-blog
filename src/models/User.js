@@ -30,6 +30,7 @@ module.exports = (sequelize) => {
 		User.hasMany(models.Post, { foreignKey: 'userId' });
 		User.hasMany(models.Favorites, { foreignKey: 'userId' });
 		User.hasMany(models.Reactions, { foreignKey: 'userId' });
+		User.hasMany(models.Comments, { foreignKey: 'userId' });
 	};
 	return User;
 };

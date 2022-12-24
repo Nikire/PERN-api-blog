@@ -17,4 +17,10 @@ module.exports = {
 		}));
 		await User.bulkCreate(users);
 	},
+	parseModel(model) {
+		return { ...model.dataValues };
+	},
+	notOwner(userId, post) {
+		return userId !== post.dataValues.userId ? true : false;
+	},
 };

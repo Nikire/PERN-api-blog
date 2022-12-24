@@ -15,9 +15,7 @@ const router = Router();
 
 // Set up the routes
 router.use('/auth', authRouter);
-//router.use('/posts', authenticateToken, postsRouter);
-//router.use('/users', authenticateToken, usersRouter);
-router.use('/posts', postsRouter);
+router.use('/posts', authenticateToken, postsRouter);
 router.use('/users', usersRouter);
 router.use('/favorites', favoritesRouter);
 router.use('/reactions', reactionsRouter);

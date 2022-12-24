@@ -4,7 +4,8 @@ const {
 } = require('../sequelize');
 module.exports = {
 	async addReaction(req, res, next) {
-		const { postId, userId, type } = req.body;
+		const { postId, type } = req.body;
+		const userId = req.user.id;
 		try {
 			let types = ['like', 'sad', 'love'];
 			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
@@ -24,7 +25,8 @@ module.exports = {
 		}
 	},
 	async removeReaction(req, res, next) {
-		const { postId, userId } = req.body;
+		const { postId } = req.body;
+		const userId = req.user.id;
 		try {
 			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
 			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
@@ -39,7 +41,8 @@ module.exports = {
 		}
 	},
 	async changeReaction(req, res, next) {
-		const { postId, userId, type } = req.body;
+		const { postId, type } = req.body;
+		const userId = req.user.id;
 		try {
 			let types = ['like', 'sad', 'love'];
 			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });

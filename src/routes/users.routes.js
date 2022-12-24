@@ -1,4 +1,7 @@
 const { Router } = require('express');
+//Auth
+const { authenticateToken } = require('../helpers/express');
+
 //Controllers
 const {
 	getUsers,
@@ -11,11 +14,11 @@ const {
 const router = Router();
 
 // Set up the routes
-router.get('/', getUsers);
-router.get('/:id', getUser);
+router.get('/', authenticateToken, getUsers);
+router.get('/:id', authenticateToken, getUser);
 router.post('/', createUser);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
+router.put('/:id', authenticateToken, updateUser);
+router.delete('/:id', authenticateToken, deleteUser);
 
 // Export the router
 module.exports = router;

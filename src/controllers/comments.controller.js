@@ -4,7 +4,8 @@ const {
 } = require('../sequelize');
 module.exports = {
 	async addComment(req, res, next) {
-		const { postId, userId, content } = req.body;
+		const { postId, content } = req.body;
+		const userId = req.user.id;
 		try {
 			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
 			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
@@ -21,7 +22,8 @@ module.exports = {
 		}
 	},
 	async removeComment(req, res, next) {
-		const { postId, userId } = req.body;
+		const { postId } = req.body;
+		const userId = req.user.id;
 		try {
 			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
 			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
@@ -36,7 +38,8 @@ module.exports = {
 		}
 	},
 	async changeComment(req, res, next) {
-		const { postId, userId, content } = req.body;
+		const { postId, content } = req.body;
+		const userId = req.user.id;
 		try {
 			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
 			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });

@@ -18,9 +18,13 @@ module.exports = {
 						.json({ message: 'Unauthorized, password is incorrect' });
 				// Verify that the user exists
 				const user = { username, password };
-				const accessToken = jwt.sign({ user }, process.env.JWT_ACCESS_TOKEN, {
-					expiresIn: '30m',
-				});
+				const accessToken = jwt.sign(
+					{ user: finded },
+					process.env.JWT_ACCESS_TOKEN,
+					{
+						expiresIn: '30m',
+					}
+				);
 				res
 					.header('authorization', accessToken)
 					.json({ accessToken, message: 'User authenticated' });

@@ -4,7 +4,8 @@ const {
 } = require('../sequelize');
 module.exports = {
 	async addFavorite(req, res, next) {
-		const { postId, userId } = req.body;
+		const { postId } = req.body;
+		const userId = req.user.id;
 		try {
 			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
 			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
@@ -19,7 +20,8 @@ module.exports = {
 		}
 	},
 	async removeFavorite(req, res, next) {
-		const { postId, userId } = req.body;
+		const { postId } = req.body;
+		const userId = req.user.id;
 		try {
 			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
 			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });

@@ -45,15 +45,16 @@ module.exports = {
 		}
 	},
 	async createPost(req, res, next) {
-		const { title, tags, content, userId } = req.body;
+		const { title, tags, content } = req.body;
+		const { id } = req.user;
 		try {
 			const post = await Post.create({
 				title,
 				tags,
 				content,
-				userId,
+				userId: id,
 			});
-			const user = await User.findByPk(userId);
+			const user = await User.findByPk(id);
 			await user.addPost(post);
 			res.status(200).json(post);
 		} catch (e) {

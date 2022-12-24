@@ -25,6 +25,11 @@ module.exports = (sequelize) => {
 			allowNull: false,
 			unique: true,
 		},
+		admin: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false,
+		},
 	});
 	User.associate = function (models) {
 		User.hasMany(models.Post, { foreignKey: 'userId' });

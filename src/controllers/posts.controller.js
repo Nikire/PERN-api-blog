@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 
 const {
-	models: { User, Post, Favorites, Comments },
+	models: { User, Post, Favorites, Comments, Reactions },
 } = require('../sequelize');
 
 const { parseModel, notOwner } = require('../helpers/sequelize');
@@ -18,6 +18,10 @@ module.exports = {
 					{
 						model: Comments,
 						attributes: ['userId', 'content'],
+					},
+					{
+						model: Reactions,
+						attributes: ['userId', 'type'],
 					},
 				],
 			});
@@ -59,6 +63,10 @@ module.exports = {
 					{
 						model: Comments,
 						attributes: ['userId', 'content'],
+					},
+					{
+						model: Reactions,
+						attributes: ['userId', 'type'],
 					},
 				],
 			});

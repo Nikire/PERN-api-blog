@@ -8,15 +8,15 @@ module.exports = {
 		const userId = req.user.id;
 		try {
 			let types = ['like', 'sad', 'love'];
-			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
-			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
-			//validate
-			if (!post) return res.status(404).json({ message: 'Post not found' });
-			if (!user) return res.status(404).json({ message: 'User not found' });
+			if (!type) {
+				return res
+					.status(401)
+					.json({ error: true, message: 'Type must be provided.' });
+			}
 			if (!types.includes(type))
 				return res
 					.status(404)
-					.json({ message: 'Type not found in possible types' });
+					.json({ error: true, message: 'Type not found in possible types.' });
 			//adding
 			await Reactions.create({ postId, userId, type });
 			res.status(200).json({ message: 'Added post to Reactions' });
@@ -28,12 +28,6 @@ module.exports = {
 		const { postId } = req.body;
 		const userId = req.user.id;
 		try {
-			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
-			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
-			//validate
-			if (!post) return res.status(404).json({ message: 'Post not found' });
-			if (!user) return res.status(404).json({ message: 'User not found' });
-			//removing
 			await Reactions.destroy({ where: { userId, postId } });
 			res.status(200).json({ message: 'Removed reaction' });
 		} catch (e) {
@@ -45,16 +39,20 @@ module.exports = {
 		const userId = req.user.id;
 		try {
 			let types = ['like', 'sad', 'love'];
-			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
-			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
-			//validate
-			if (!post) return res.status(404).json({ message: 'Post not found' });
-			if (!user) return res.status(404).json({ message: 'User not found' });
+			if (!type) {
+				return res
+					.status(401)
+					.json({ error: true, message: 'Type must be provided.' });
+			}
+			if (!types.includes(type))
+				return res
+					.status(404)
+					.json({ error: true, message: 'Type not found in possible types.' });
 			if (!types.includes(type))
 				return res
 					.status(404)
 					.json({ message: 'Type not found in possible types' });
-			//removing
+			//Updating
 			await Reactions.update({ type }, { where: { userId, postId } });
 			res.status(200).json({ message: 'Updated reaction' });
 		} catch (e) {

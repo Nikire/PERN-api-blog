@@ -1,4 +1,5 @@
 let users = require('../media/JSON/users.json');
+const { Op } = require('sequelize');
 module.exports = {
 	async testConnection(sequelize) {
 		try {
@@ -22,5 +23,10 @@ module.exports = {
 	},
 	notOwner(userId, post) {
 		return userId !== post.dataValues.userId ? true : false;
+	},
+	async findPostAndUser(postId, userId, Post, User) {
+		const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
+		const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
+		return [post, user];
 	},
 };

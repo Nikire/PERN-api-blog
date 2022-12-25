@@ -1,6 +1,10 @@
 const { Router } = require('express');
 
-const { authenticateToken } = require('../helpers/express');
+// Custom middlewares
+const {
+	authenticateToken,
+	validateUserAndPost,
+} = require('../helpers/express');
 
 // Import of routes
 const postsRouter = require('./posts.routes.js');
@@ -19,9 +23,19 @@ const router = Router();
 router.use('/auth', authRouter); // ✅
 router.use('/posts', authenticateToken, postsRouter); // ✅
 router.use('/users', usersRouter); // ✅
-router.use('/favorites', authenticateToken, favoritesRouter); // ✅
-router.use('/reactions', authenticateToken, reactionsRouter); // ✅
-router.use('/comments', authenticateToken, commentsRouter); // ✅
+router.use(
+	'/favorites',
+	authenticateToken,
+	validateUserAndPost,
+	favoritesRouter
+); // ✅
+router.use(
+	'/reactions',
+	authenticateToken,
+	validateUserAndPost,
+	reactionsRouter
+); // ✅
+router.use('/comments', authenticateToken, validateUserAndPost, commentsRouter); // ✅
 
 // Export the router
 module.exports = router;

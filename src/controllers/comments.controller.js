@@ -7,13 +7,11 @@ module.exports = {
 		const { postId, content } = req.body;
 		const userId = req.user.id;
 		try {
-			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
-			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
-			//validate
-			if (!content)
-				return res.status(400).json({ message: 'Content not provided' });
-			if (!post) return res.status(404).json({ message: 'Post not found' });
-			if (!user) return res.status(404).json({ message: 'User not found' });
+			if (!content) {
+				return res
+					.status(401)
+					.json({ error: true, message: 'Content not provided.' });
+			}
 			//adding
 			await Comments.create({ postId, userId, content });
 			res.status(200).json({ message: 'Added comment' });
@@ -25,12 +23,6 @@ module.exports = {
 		const { postId } = req.body;
 		const userId = req.user.id;
 		try {
-			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
-			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
-			//validate
-			if (!post) return res.status(404).json({ message: 'Post not found' });
-			if (!user) return res.status(404).json({ message: 'User not found' });
-			//removing
 			await Comments.destroy({ where: { userId, postId } });
 			res.status(200).json({ message: 'Comment removed' });
 		} catch (e) {
@@ -41,15 +33,12 @@ module.exports = {
 		const { postId, content } = req.body;
 		const userId = req.user.id;
 		try {
-			const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
-			const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
-			//validate
-			if (!content)
-				return res.status(400).json({ message: 'Content not provided' });
-			if (!post) return res.status(404).json({ message: 'Post not found' });
-			if (!user) return res.status(404).json({ message: 'User not found' });
-
-			//removing
+			if (!content) {
+				return res
+					.status(401)
+					.json({ error: true, message: 'Content not provided.' });
+			}
+			//updating
 			await Comments.update({ content }, { where: { userId, postId } });
 			res.status(200).json({ message: 'Updated comment' });
 		} catch (e) {

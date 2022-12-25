@@ -53,7 +53,37 @@ module.exports = {
 			}
 			next();
 		} catch (err) {
-			res.status(500).json({ error: true, message: err.message });
+			return res.status(500).json({ error: true, message: err.message });
+		}
+	},
+	isAdmin: async (req, res, next) => {
+		const userId = req.user.id;
+		const adminStatus = req.user.admin;
+		try {
+			if (!userId) {
+				return res
+					.status(401)
+					.json({ error: true, message: 'User ID is not provided.' });
+			}
+
+			const found = await User.findByPk(userId);
+
+			if (!found) {
+				return res
+					.status(404)
+					.json({ error: true, message: 'User not found.' });
+			}
+
+			if (!found.dataValues.admin || !adminStatus) {
+				return res.status(401).json({
+					error: true,
+					message: 'User is not authorized for this route.',
+				});
+			}
+
+			next();
+		} catch (err) {
+			return res.status(500).json({ error: true, message: err.message });
 		}
 	},
 };

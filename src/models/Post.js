@@ -19,6 +19,11 @@ module.exports = (sequelize) => {
 			type: DataTypes.TEXT,
 			allowNull: false,
 		},
+		disabled: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: false,
+		},
 		userId: {
 			type: DataTypes.UUID,
 			allowNull: false,

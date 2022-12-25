@@ -14,7 +14,6 @@ module.exports = (sequelize) => {
 		},
 		tags: {
 			type: DataTypes.ARRAY(DataTypes.STRING),
-			allowNull: false,
 		},
 		content: {
 			type: DataTypes.TEXT,

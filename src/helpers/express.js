@@ -1,4 +1,10 @@
 const jwt = require('jsonwebtoken');
+const { findPostAndUser } = require('./sequelize');
+
+const {
+	models: { User, Post },
+} = require('../sequelize');
+
 module.exports = {
 	errorHandler: () => (err, req, res, next) => {
 		const status = err.status || 500;
@@ -17,5 +23,37 @@ module.exports = {
 			req.user = user;
 			next();
 		});
+	},
+	validateUserAndPost: async (req, res, next) => {
+		const { postId } = req.body;
+		const userId = req.user.id;
+		try {
+			console.log('validating');
+			if (!postId) {
+				return res
+					.status(401)
+					.json({ error: true, message: 'Post ID must be provided.' });
+			}
+			if (!userId) {
+				return res
+					.status(401)
+					.json({ error: true, message: 'User ID must be provided.' });
+			}
+			const [post, user] = await findPostAndUser(postId, userId, Post, User);
+
+			if (!post) {
+				return res
+					.status(404)
+					.json({ error: true, message: 'Post not found.' });
+			}
+			if (!user) {
+				return res
+					.status(404)
+					.json({ error: true, message: 'User not found.' });
+			}
+			next();
+		} catch (err) {
+			res.status(500).json({ error: true, message: err.message });
+		}
 	},
 };

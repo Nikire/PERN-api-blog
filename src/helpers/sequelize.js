@@ -25,6 +25,13 @@ module.exports = {
 	notOwner(userId, post) {
 		return userId !== post.dataValues.userId ? true : false;
 	},
+	async findCommentAndUser(commentId, userId, Comments, User) {
+		const comment = await Comments.findOne({
+			where: { id: { [Op.eq]: commentId } },
+		});
+		const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });
+		return [comment, user];
+	},
 	async findPostAndUser(postId, userId, Post, User) {
 		const post = await Post.findOne({ where: { id: { [Op.eq]: postId } } });
 		const user = await User.findOne({ where: { id: { [Op.eq]: userId } } });

@@ -5,6 +5,7 @@ const {
 	authenticateToken,
 	validateUserAndPost,
 	isAdmin,
+	validateUserAndComment,
 } = require('../helpers/express');
 
 // Import of routes
@@ -14,8 +15,8 @@ const authRouter = require('./auth.routes.js');
 const favoritesRouter = require('./favorites.routes.js');
 const reactionsRouter = require('./reactions.routes.js');
 const commentsRouter = require('./comments.routes.js');
+const upvotesRouter = require('./upvotes.routes.js');
 const adminRouter = require('./admin');
-
 // Create an instance of the express router
 const router = Router();
 
@@ -38,6 +39,12 @@ router.use(
 	reactionsRouter
 ); // ✅
 router.use('/comments', authenticateToken, validateUserAndPost, commentsRouter); // ✅
-router.use('/admin', authenticateToken, isAdmin, adminRouter);
+router.use(
+	'/upvotes',
+	authenticateToken,
+	validateUserAndComment,
+	upvotesRouter
+); // ✅
+router.use('/admin', authenticateToken, isAdmin, adminRouter); // ✅
 // Export the router
 module.exports = router;

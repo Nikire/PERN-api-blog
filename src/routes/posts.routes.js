@@ -1,4 +1,7 @@
 const { Router } = require('express');
+// Custom middlewares
+const { validatePagination } = require('../helpers/express');
+
 //Controllers
 const {
 	getPosts,
@@ -11,7 +14,7 @@ const {
 const router = Router();
 
 // Set up the routes
-router.get('/', getPosts);
+router.get('/', validatePagination, getPosts);
 router.get('/:id', getPost);
 router.post('/', createPost);
 router.put('/:id', updatePost);

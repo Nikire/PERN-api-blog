@@ -5,6 +5,7 @@ const {
 	models: { User, Post, Comments },
 } = require('../sequelize');
 
+// Middlewares
 module.exports = {
 	errorHandler: () => (err, req, res, next) => {
 		const status = err.status || 500;
@@ -63,7 +64,6 @@ module.exports = {
 		const { commentId } = req.body;
 		const userId = req.user.id;
 		try {
-			console.log('VALIDATING USER AND COMMENT');
 			if (!commentId) {
 				return res
 					.status(401)
@@ -119,6 +119,41 @@ module.exports = {
 					error: true,
 					message: 'User is not authorized for this route.',
 				});
+			}
+
+			next();
+		} catch (err) {
+			return res.status(500).json({ error: true, message: err.message });
+		}
+	},
+	validatePagination: async (req, res, next) => {
+		let { page, limit } = req.query;
+		try {
+			console.log(limit);
+			if (!page || page < 1) {
+				page = 1;
+			}
+			if (!limit || limit < 1) {
+				limit = 10;
+			}
+
+			page = parseInt(page);
+			limit = parseInt(limit);
+
+			if (Number.isNaN(page)) {
+				return res
+					.status(400)
+					.json({ error: true, message: 'Bad request, page must be a number' });
+			}
+			if (Number.isNaN(limit)) {
+				return res.status(400).json({
+					error: true,
+					message: 'Bad request, limit must be a number',
+				});
+			}
+
+			if (limit > 50) {
+				req.query.limit = 50;
 			}
 
 			next();

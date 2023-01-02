@@ -11,9 +11,6 @@ const { parseModel } = require('../helpers/sequelize');
 module.exports = {
 	async getUsers(req, res, next) {
 		let { name, email, username } = req.query;
-		if (!name) name = '';
-		if (!email) email = '';
-		if (!username) username = '';
 		try {
 			let users = await User.findAll({
 				where: {
@@ -51,7 +48,10 @@ module.exports = {
 					.map((fav) => parseModel(fav))
 					.map((fav) => fav.postId),
 			}));
-			res.status(200).json(users);
+			let info = {
+				count: users.length,
+			};
+			res.status(200).json({ info, results: users });
 		} catch (e) {
 			next(e);
 		}
@@ -59,12 +59,6 @@ module.exports = {
 	async getUser(req, res, next) {
 		const { id } = req.params;
 		try {
-			if (!id || id === '') {
-				return res
-					.status(400)
-					.json({ error: true, message: 'ID must be provided.' });
-			}
-
 			const user = await User.findByPk(id, {
 				attributes: ['id', 'name', 'email', 'username'],
 				include: [
@@ -135,12 +129,14 @@ module.exports = {
 					.status(404)
 					.json({ error: true, message: 'User does not exist.' });
 			}
-			await User.update(
+			const changes = await User.update(
 				{ username, email, name },
 				{ where: { id: { [Op.eq]: id } } }
 			);
 
-			res.status(200).json({ message: 'User updated successfully!' });
+			req.changes = changes[0];
+			req.type = 'User';
+			next();
 		} catch (e) {
 			next(e);
 		}
@@ -162,11 +158,13 @@ module.exports = {
 					.json({ error: true, message: 'User does not exist.' });
 			}
 
-			await User.destroy({
+			const changes = await User.destroy({
 				where: { id: { [Op.eq]: id } },
 			});
 
-			res.status(204).json({ message: 'User deleted successfully!' });
+			req.changes = changes[0];
+			req.type = 'User';
+			next();
 		} catch (e) {
 			next(e);
 		}

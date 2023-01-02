@@ -1,6 +1,13 @@
 const { Router } = require('express');
 //Auth
-const { authenticateToken } = require('../helpers/express');
+const {
+	authenticateToken,
+	validateParamId,
+	validateSearch,
+	validateUser,
+	handleUpdate,
+	handleDelete,
+} = require('../helpers/express');
 
 //Controllers
 const {
@@ -14,11 +21,24 @@ const {
 const router = Router();
 
 // Set up the routes
-router.get('/', authenticateToken, getUsers);
-router.get('/:id', authenticateToken, getUser);
-router.post('/', createUser);
-router.put('/:id', authenticateToken, updateUser);
-router.delete('/:id', authenticateToken, deleteUser);
+router.get('/', authenticateToken, validateSearch, getUsers);
+router.get('/:id', authenticateToken, validateParamId('User'), getUser);
+router.post('/', validateUser('create'), createUser);
+router.put(
+	'/:id',
+	authenticateToken,
+	validateParamId('User'),
+	validateUser('update'),
+	updateUser,
+	handleUpdate
+);
+router.delete(
+	'/:id',
+	authenticateToken,
+	validateParamId('User'),
+	deleteUser,
+	handleDelete
+);
 
 // Export the router
 module.exports = router;

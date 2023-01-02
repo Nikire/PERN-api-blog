@@ -61,7 +61,7 @@ module.exports = {
 					.json({ error: true, message: 'No posts found.' });
 			}
 
-			res.status(200).json({ info, posts });
+			res.status(200).json({ info, results: posts });
 		} catch (e) {
 			next(e);
 		}
@@ -161,7 +161,6 @@ module.exports = {
 			const changes = await Post.destroy({
 				where: { id: { [Op.eq]: id } },
 			});
-
 			req.changes = changes;
 			req.type = 'Post';
 			next();

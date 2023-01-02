@@ -209,7 +209,7 @@ module.exports = {
 	},
 	validatePost:
 		(type = '') =>
-		async (req, res, next) => {
+		(req, res, next) => {
 			// req.body = {tags,content,title}
 			try {
 				// type validation
@@ -288,6 +288,144 @@ module.exports = {
 						error: true,
 						message:
 							'Invalid content, please enter a valid content (must be valid characters and 10-5000 characters length)',
+					});
+				}
+				next();
+			} catch (err) {
+				return res.status(500).json({ error: true, message: err.message });
+			}
+		},
+	validateSearch: (req, res, next) => {
+		try {
+			if (!req.query.name || typeof req.query.name !== 'string') {
+				req.query.name = '';
+			}
+			if (!req.query.email || typeof req.query.email !== 'string') {
+				req.query.email = '';
+			}
+			if (!req.query.username || typeof req.query.username !== 'string') {
+				req.query.username = '';
+			}
+
+			next();
+		} catch (err) {
+			return res.status(500).json({ error: true, message: err.message });
+		}
+	},
+	validateUser:
+		(type = '') =>
+		(req, res, next) => {
+			let { username, name, email, password } = req.body;
+			try {
+				// type validation
+				if (!type || type === '') {
+					return res.status(400).json({
+						error: true,
+						message: 'Type of validation must be provided.',
+					});
+				}
+				if (!['update', 'create'].includes(type)) {
+					return res
+						.status(400)
+						.json({ error: true, message: 'Invalid type of validation.' });
+				}
+
+				switch (type) {
+					case 'update': {
+						if (!username) {
+							req.body.username = '';
+						}
+						if (!name) {
+							req.body.name = '';
+						}
+						if (!email) {
+							req.body.email = '';
+						}
+						if (!password) {
+							req.body.password = '';
+						}
+						break;
+					}
+					case 'create': {
+						if (!username || username === '') {
+							return req
+								.status(400)
+								.json({ error: true, message: 'Username must be provided' });
+						}
+						if (!name || name === '') {
+							return req
+								.status(400)
+								.json({ error: true, message: 'Name must be provided' });
+						}
+						if (!email || email === '') {
+							return req
+								.status(400)
+								.json({ error: true, message: 'Email must be provided' });
+						}
+						if (!password || password === '') {
+							return req
+								.status(400)
+								.json({ error: true, message: 'Password must be provided' });
+						}
+						break;
+					}
+					default: {
+						break;
+					}
+				}
+				//Type check
+				if (typeof username !== 'string') {
+					return req
+						.status(400)
+						.json({ error: true, message: 'Username type is not valid.' });
+				}
+				if (typeof name !== 'string') {
+					return req
+						.status(400)
+						.json({ error: true, message: 'Name type is not valid.' });
+				}
+				if (typeof email !== 'string') {
+					return req
+						.status(400)
+						.json({ error: true, message: 'Email type is not valid.' });
+				}
+				if (typeof password !== 'string') {
+					return req
+						.status(400)
+						.json({ error: true, message: 'Password type is not valid.' });
+				}
+				//RegEx
+				let usernameRegEx = /^[a-zA-Z0-9]{3,25}$/;
+				let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,30}$/;
+				let emailRegEx =
+					/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				let nameRegEx = /^[a-zA-Z]+\s[a-zA-Z]+$/;
+
+				if (req.body.username && !usernameRegEx.test(req.body.username)) {
+					return res.status(400).json({
+						error: true,
+						message:
+							'Invalid username, please enter a valid username (must be valid characters and be 3-25 characters length)',
+					});
+				}
+				if (req.body.password && !passwordRegEx.test(req.body.password)) {
+					return res.status(400).json({
+						error: true,
+						message:
+							'Invalid password, please enter a valid password (must be valid characters and be 5-30 characters length)',
+					});
+				}
+				if (req.body.email && !emailRegEx.test(req.body.email)) {
+					return res.status(400).json({
+						error: true,
+						message: 'Invalid email, please enter a valid email',
+					});
+				}
+				if (req.body.name && !nameRegEx.test(req.body.name)) {
+					return res.status(400).json({
+						error: true,
+						message:
+							'Invalid name, please enter a valid name (with structure "firstName secondName")',
 					});
 				}
 				next();

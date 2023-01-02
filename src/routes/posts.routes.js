@@ -1,6 +1,12 @@
 const { Router } = require('express');
 // Custom middlewares
-const { validatePagination } = require('../helpers/express');
+const {
+	validatePagination,
+	validateParamId,
+	validatePost,
+	handleUpdate,
+	handleDelete,
+} = require('../helpers/express');
 
 //Controllers
 const {
@@ -15,10 +21,10 @@ const router = Router();
 
 // Set up the routes
 router.get('/', validatePagination, getPosts);
-router.get('/:id', getPost);
-router.post('/', createPost);
-router.put('/:id', updatePost);
-router.delete('/:id', deletePost);
+router.get('/:id', validateParamId('Post'), getPost);
+router.post('/', validatePost('create'), createPost);
+router.put('/:id', validatePost('update'), updatePost, handleUpdate);
+router.delete('/:id', validateParamId('Post'), deletePost, handleDelete);
 
 // Export the router
 module.exports = router;

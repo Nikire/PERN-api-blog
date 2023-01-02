@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
 			allowNull: false,
 		},
 		postId: {
-			type: DataTypes.UUID,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			foreignKey: true,
 		},

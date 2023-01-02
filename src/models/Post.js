@@ -3,8 +3,8 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
 	const Post = sequelize.define('post', {
 		id: {
-			type: DataTypes.UUID,
-			defaultValue: DataTypes.UUIDV4,
+			type: DataTypes.INTEGER,
+			autoIncrement: true,
 			allowNull: false,
 			primaryKey: true,
 		},

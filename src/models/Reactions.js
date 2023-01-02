@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
 			},
 		},
 		postId: {
-			type: DataTypes.UUID,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			foreignKey: true,
 		},

@@ -348,22 +348,22 @@ module.exports = {
 					}
 					case 'create': {
 						if (!username || username === '') {
-							return req
+							return res
 								.status(400)
 								.json({ error: true, message: 'Username must be provided' });
 						}
 						if (!name || name === '') {
-							return req
+							return res
 								.status(400)
 								.json({ error: true, message: 'Name must be provided' });
 						}
 						if (!email || email === '') {
-							return req
+							return res
 								.status(400)
 								.json({ error: true, message: 'Email must be provided' });
 						}
 						if (!password || password === '') {
-							return req
+							return res
 								.status(400)
 								.json({ error: true, message: 'Password must be provided' });
 						}
@@ -375,22 +375,22 @@ module.exports = {
 				}
 				//Type check
 				if (typeof username !== 'string') {
-					return req
+					return res
 						.status(400)
 						.json({ error: true, message: 'Username type is not valid.' });
 				}
 				if (typeof name !== 'string') {
-					return req
+					return res
 						.status(400)
 						.json({ error: true, message: 'Name type is not valid.' });
 				}
 				if (typeof email !== 'string') {
-					return req
+					return res
 						.status(400)
 						.json({ error: true, message: 'Email type is not valid.' });
 				}
 				if (typeof password !== 'string') {
-					return req
+					return res
 						.status(400)
 						.json({ error: true, message: 'Password type is not valid.' });
 				}
@@ -399,7 +399,7 @@ module.exports = {
 				let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,30}$/;
 				let emailRegEx =
 					/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-				let nameRegEx = /^[a-zA-Z]+\s[a-zA-Z]+$/;
+				let nameRegEx = /^[A-Za-z]+(\s[A-Za-z]+)?$/;
 
 				if (req.body.username && !usernameRegEx.test(req.body.username)) {
 					return res.status(400).json({
@@ -412,7 +412,7 @@ module.exports = {
 					return res.status(400).json({
 						error: true,
 						message:
-							'Invalid password, please enter a valid password (must be valid characters and be 5-30 characters length)',
+							'Invalid password, it must have at least one number and one letter it also must be valid characters and be 5-30 characters length',
 					});
 				}
 				if (req.body.email && !emailRegEx.test(req.body.email)) {

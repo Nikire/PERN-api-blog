@@ -10,7 +10,7 @@ module.exports = {
 	errorHandler: () => (err, req, res, next) => {
 		const status = err.status || 500;
 		const message = err.message || err;
-		console.error('ERROR', err);
+		console.error('ERROR ', err);
 		res.status(status).json({ error: true, message });
 	},
 	authenticateToken: (req, res, next) => {
@@ -32,15 +32,14 @@ module.exports = {
 		const { postId } = req.body;
 		const userId = req.user.id;
 		try {
-			console.log('VALIDATING USER AND POST');
 			if (!postId) {
 				return res
-					.status(401)
+					.status(400)
 					.json({ error: true, message: 'Post ID must be provided.' });
 			}
 			if (!userId) {
 				return res
-					.status(401)
+					.status(400)
 					.json({ error: true, message: 'User ID must be provided.' });
 			}
 			const [post, user] = await findPostAndUser(postId, userId, Post, User);

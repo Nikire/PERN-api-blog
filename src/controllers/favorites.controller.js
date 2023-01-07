@@ -1,7 +1,7 @@
-const { findPostAndUser } = require('../helpers/sequelize');
 const {
-	models: { User, Post, Favorites },
+	models: { Favorites },
 } = require('../sequelize');
+
 module.exports = {
 	async addFavorite(req, res, next) {
 		const { postId } = req.body;

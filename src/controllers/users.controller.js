@@ -105,7 +105,7 @@ module.exports = {
 						password,
 						name,
 					});
-					res.status(200).json(user);
+					res.status(200).json({ user, message: 'User created successfully!' });
 				});
 			});
 		} catch (e) {

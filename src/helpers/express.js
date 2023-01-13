@@ -388,7 +388,7 @@ module.exports = {
 						.status(400)
 						.json({ error: true, message: 'Email type is not valid.' });
 				}
-				if (typeof password !== 'string') {
+				if (typeof password !== 'string' && type !== 'update') {
 					return res
 						.status(400)
 						.json({ error: true, message: 'Password type is not valid.' });
@@ -398,20 +398,20 @@ module.exports = {
 				let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,30}$/;
 				let emailRegEx =
 					/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-				let nameRegEx = /^[A-Za-z]+(\s[A-Za-z]+)?$/;
+				let nameRegEx = /^[a-zA-Z ]{3,25}$/;
 
 				if (req.body.username && !usernameRegEx.test(req.body.username)) {
 					return res.status(400).json({
 						error: true,
 						message:
-							'Invalid username, please enter a valid username (must be valid characters and be 3-25 characters length)',
+							'Invalid username, please enter a valid username (must be valid characters and be 3-25 characters long)',
 					});
 				}
 				if (req.body.password && !passwordRegEx.test(req.body.password)) {
 					return res.status(400).json({
 						error: true,
 						message:
-							'Invalid password, it must have at least one number and one letter it also must be valid characters and be 5-30 characters length',
+							'Invalid password, it must have at least one number and one letter it also must be valid characters and be 5-30 characters long',
 					});
 				}
 				if (req.body.email && !emailRegEx.test(req.body.email)) {
@@ -424,7 +424,7 @@ module.exports = {
 					return res.status(400).json({
 						error: true,
 						message:
-							'Invalid name, please enter a valid name (with structure "firstName secondName")',
+							'Invalid name, please enter a valid name (must be just letters and 3-25 characters long)',
 					});
 				}
 				next();

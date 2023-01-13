@@ -52,7 +52,7 @@ module.exports = {
 					page + 1 > Math.floor(posts.length / limit) + 1 ? null : page + 1,
 				prevPage: page - 1 <= 0 ? null : page - 1,
 			};
-
+			posts = posts.sort((a, b) => a.id - b.id);
 			posts = posts.splice((page - 1) * limit, limit);
 
 			if (!posts || posts.length === 0) {
@@ -115,7 +115,7 @@ module.exports = {
 			const user = await User.findByPk(userId);
 			await user.addPost(post);
 
-			res.status(200).json({ post, message: 'Post created successfully' });
+			res.status(200).json({ post, message: 'Post created successfully!' });
 		} catch (e) {
 			next(e);
 		}

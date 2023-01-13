@@ -1,5 +1,11 @@
+// Helpers
+const { errorHandler } = require('./helpers/express');
+
 // Require Express
 const express = require('express');
+const routes = require('./routes');
+
+// Middlewares
 const morgan = require('morgan');
 const cors = require('cors');
 
@@ -13,8 +19,9 @@ server.use(morgan('dev'));
 server.use(cors());
 
 // Setup routes
-server.get('/', (req, res) => {
-	res.send('Hello Express!');
-});
+server.use('/', routes);
+
+// Error handler
+server.use(errorHandler());
 
 module.exports = server;
